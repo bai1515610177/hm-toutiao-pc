@@ -21,17 +21,20 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="频道">
-          <el-select v-model="reqParams.channel_id" placeholder="请选择" clearable>
+          <!-- 下拉框封装components/my-channel.vue-->
+          <!-- <el-select v-model="reqParams.channel_id" placeholder="请选择" clearable>
             <el-option
               v-for="item in channelOptions"
               :key="item.id"
               :label="item.name"
               :value="item.id"
-            ></el-option>
-          </el-select>
+          ></el-option>
+          </el-select> -->
+          <!-- 使用频道组件 -->
+          <my-channel v-model="reqParams.channel_id"></my-channel>
         </el-form-item>
         <el-form-item label="日期">
-          <el-date-picker
+          <!-- <el-date-picker
             v-model="dateArr"
             type="daterange"
             range-separator="至"
@@ -39,10 +42,17 @@
             end-placeholder="结束日期"
             @change="changeDate"
             value-format="yyyy-MM-dd"
+          ></el-date-picker>-->
+          <el-date-picker
+            v-model="dateArr"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
           ></el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click='search'>筛选</el-button>
+          <el-button type="primary" @click="search">筛选</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -96,6 +106,24 @@
           </template>
         </el-table-column>
       </el-table>
+
+      <!-- 表格 -->
+      <!-- <el-table :data="articles" style="width: 100%">
+        <el-table-column label="封面">
+          <template slot-scope="scope">
+            <el-image :src="scope.row.cover.images[0]" style='width:150px;height:100px'>
+              <div slot="error">
+                <img src="../../assets/error.gif" width="150" height="100" />
+              </div>
+            </el-image>
+          </template>
+        </el-table-column>
+        <el-table-column label="标题" prop="title"></el-table-column>
+        <el-table-column label="状态"></el-table-column>
+        <el-table-column label="发布时间" prop="pubdate"></el-table-column>
+        <el-table-column label="操作" width="120"></el-table-column>
+      </el-table> -->
+
       <!-- 分页 -->
       <!-- layout="prev, pager, next"当前分页包含的数据 -->
       <!-- total总条数 -->
@@ -107,9 +135,14 @@
         layout="prev, pager, next"
         :total="total"
         :page-size="reqParams.per_page"
-        :current-page='reqParams.page'
-        @current-change='pager'
+        :current-page="reqParams.page"
+        @current-change="pager"
       ></el-pagination>
+
+      <!-- 分页 -->
+      <!-- <el-pagination background layout="prev, pager, next" :total="1000">
+        <div></div>
+      </el-pagination> -->
     </el-card>
   </div>
 </template>
@@ -125,7 +158,7 @@ export default {
         status: null,
         channel_id: null
       },
-      channelOptions: [],
+      // channelOptions: [],
       dateArr: [],
       articles: [],
       // 总条数
@@ -133,18 +166,18 @@ export default {
     }
   },
   created () {
-    this.getChannelOptions()
+    // this.getChannelOptions()
     this.getArticles()
   },
   methods: {
-    async getChannelOptions () {
-      // 获取数据
-      const {
-        data: { data }
-      } = await this.$http.get('channels')
-      // 赋值channelOptions
-      this.channelOptions = data.channels
-    },
+    // async getChannelOptions () {
+    //   // 获取数据
+    //   const {
+    //     data: { data }
+    //   } = await this.$http.get('channels')
+    //   // 赋值channelOptions
+    //   this.channelOptions = data.channels
+    // },
 
     // 获取文章列表数据
     async getArticles () {
@@ -170,7 +203,9 @@ export default {
     search () {
       // 获取筛选数据（准备日期数据）
       // 处理频道空字符串问题
-      if (this.reqParams.channel_id === '') { this.reqParams.channel_id = null }
+      if (this.reqParams.channel_id === '') {
+        this.reqParams.channel_id = null
+      }
 
       // 页码换成1
       this.reqParams.page = 1
@@ -207,9 +242,7 @@ export default {
       // 更新列表
       this.getArticles()
     }
-
   }
-
 }
 </script>
 <style scoped lang='less'>
