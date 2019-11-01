@@ -5,6 +5,9 @@ import App from './App.vue'
 import router from '@/router'
 import axios from '@/api'
 import Router from 'vue-router'
+import MyBread from '@/components/my-bread'
+import plugin from '@/components'
+Vue.use(plugin)
 const routerPush = Router.prototype.push
 Router.prototype.push = function push (location) {
   return routerPush.call(this, location).catch(error => error)
@@ -12,7 +15,7 @@ Router.prototype.push = function push (location) {
 
 Vue.prototype.$http = axios
 Vue.use(ElementUI)
-
+Vue.component('my-bread', MyBread)
 Vue.config.productionTip = false
 
 new Vue({

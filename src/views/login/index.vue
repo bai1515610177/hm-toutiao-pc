@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import local from '@/utils/local'
 export default {
   data () {
     const checkMoblie = (rule, value, callback) => {
@@ -55,16 +56,17 @@ export default {
   },
   methods: {
     login () {
-      this.$refs['LoginForm'].validate(valid => {
+      this.$refs['LoginForm'].validate(async valid => {
         if (valid) {
-          this.$http
-            .post('authorizations', this.LoginForm)
-            .then(res => {
-              this.$router.push('/')
-            })
-            .catch(() => {
-              this.$message.error('手机号或验证码输入错误')
-            })
+          try {
+            const {
+              data: { data }
+            } = await this.$http.post('authorizations', this.LoginForm)
+            local.setUser(data)
+            this.$router.push('/')
+          } catch (e) {
+            this.$message.error('手机号或验证码输入错误')
+          }
         }
       })
     }

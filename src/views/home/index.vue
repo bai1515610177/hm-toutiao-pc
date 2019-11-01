@@ -3,7 +3,7 @@
     <el-aside :width="isOpen?'200px':'64px'">
       <div class="logo" :class="{smallLogo:!isOpen}"></div>
       <el-menu
-        default-active="1"
+        :default-active="$route.path"
         background-color="#002033"
         text-color="#fff"
         active-text-color="#ffd04b"
@@ -46,15 +46,19 @@
       <el-header>
         <span class="el-icon-s-fold icon" @click="toggleMenu"></span>
         <span class="text">江苏传智播客科技教育有限公司</span>
-        <el-dropdown class="dropdown">
+        <el-dropdown class="dropdown" @command='handleClick'>
           <span class="userName el-dropdown-link">
-            <img class="headIcon el-dropdown-link" src="../../assets/avatar.jpg" alt />
-            用户名
+            <img class="headIcon el-dropdown-link" :src="photo" alt />
+            {{name}}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-setting">个人设置</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-unlock">退出登录</el-dropdown-item>
+
+            <!-- <el-dropdown-item icon="el-icon-setting" @click.native='setting'>个人设置</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-unlock" @click.native='logout'>退出登录</el-dropdown-item> -->
+            <el-dropdown-item icon="el-icon-setting" command='setting'>个人设置</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-unlock" command='logout'>退出登录</el-dropdown-item>
+
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -66,17 +70,39 @@
 </template>
 
 <script>
+import local from '@/utils/local'
 export default {
   data () {
     return {
-      isOpen: true
+      isOpen: true,
+      photo: '',
+      name: ''
     }
   },
   methods: {
     toggleMenu () {
       // 切换侧边栏，展开与收起
       this.isOpen = !this.isOpen
+    },
+    setting () {
+      this.$router.push('/setting')
+    },
+    logout () {
+      local.delUser()
+      this.$router.push('/login')
+    },
+    handleClick (command) {
+      // command 值 setting|logout
+      // 根据command值去执行不同的业务
+      this[command]()
+      // this.setting() ===command setting
+      // this.logout() === command logout
     }
+  },
+  created () {
+    const user = local.getUser() || {}
+    this.photo = user.photo
+    this.name = user.name
   }
 }
 </script>
