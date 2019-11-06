@@ -24,3 +24,27 @@
   height: 178px;
   display: block;
 }
+.container-publish .ql-editor {
+  height: 300px;
+}
+.container-publish .ql-toolbar.ql-snow {
+  padding: 0;
+}
+.my-image .btn_box {
+  width: 150px;
+  height: 150px;
+  border: 1px dashed #ddd;
+}
+.my-image .btn_box img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.my-image .dialog-footer {
+  width: 100%;
+  text-align: center;
+  display: inline-block;
+}
+.el-dialog__body {
+  padding-bottom: 0;
+}

@@ -185,8 +185,8 @@ export default {
 .img_list {
   margin-top: 20px;
   .img_item {
-    width: 180px;
-    height: 180px;
+    width: 150px;
+    height: 150px;
     border: 1px dashed #ddd;
     position: relative;
     display: inline-block;
