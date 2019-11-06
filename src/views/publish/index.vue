@@ -32,12 +32,12 @@
           <my-channel v-model="articleForm.channel_id"></my-channel>
         </el-form-item>
         <el-form-item v-if='$route.query.id'>
-          <el-button type="primary" @click="update(false)">发表</el-button>
-          <el-button @click="update(false)">存入草稿</el-button>
+          <el-button type="primary" @click="update(false)">修改</el-button>
+          <el-button @click="update(true)">存入草稿</el-button>
         </el-form-item>
         <el-form-item v-else>
           <el-button type="primary" @click="create(false)">发表</el-button>
-          <el-button @click="create(false)">存入草稿</el-button>
+          <el-button @click="create(true)">存入草稿</el-button>
         </el-form-item>
       </el-form>
     </el-card>

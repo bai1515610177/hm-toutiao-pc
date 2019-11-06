@@ -102,7 +102,7 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button @click='toEdit(scope.row.id)' type="primary" icon="el-icon-edit" circle plain>编辑</el-button>
-            <el-button @click="delArticle" type="danger" icon="el-icon-edit" circle plain>删除</el-button>
+            <el-button @click="delArticle(scope.row.id)" type="danger" icon="el-icon-edit" circle plain>删除</el-button>
           </template>
         </el-table-column>
       </el-table>
