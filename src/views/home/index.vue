@@ -71,6 +71,8 @@
 
 <script>
 import local from '@/utils/local'
+import eventBus from '@/components/eventBus'
+
 export default {
   data () {
     return {
@@ -103,6 +105,14 @@ export default {
     const user = local.getUser() || {}
     this.photo = user.photo
     this.name = user.name
+    // 绑定事件updateName
+    eventBus.$on('updateName', (name) => {
+      this.name = name
+    })
+    // 绑定事件updatePhoto
+    eventBus.$on('updatePhoto', (photo) => {
+      this.photo = photo
+    })
   }
 }
 </script>
